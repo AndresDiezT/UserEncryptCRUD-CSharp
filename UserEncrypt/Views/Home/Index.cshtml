@@ -3,31 +3,69 @@
 }
 
 <main>
-    <section class="row" aria-labelledby="aspnetTitle">
-        <h1 id="title">ASP.NET</h1>
-        <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-        <p><a href="https://asp.net" class="btn btn-primary btn-md">Learn more &raquo;</a></p>
-    </section>
+    <div class="container-fluid py-4">
+        <div class="text-center mb-4">
+            <h1 class="display-5" style="color: #b19cd9;">Bienvenido al Dashboard</h1>
+            <p class="lead text-light">Administra tus datos de manera eficiente y segura</p>
+        </div>
 
-    <div class="row">
-        <section class="col-md-4" aria-labelledby="gettingStartedTitle">
-            <h2 id="gettingStartedTitle">Getting started</h2>
-            <p>
-                ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-                enables a clean separation of concerns and gives you full control over markup
-                for enjoyable, agile development.
-            </p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-        </section>
-        <section class="col-md-4" aria-labelledby="librariesTitle">
-            <h2 id="librariesTitle">Get more libraries</h2>
-            <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-        </section>
-        <section class="col-md-4" aria-labelledby="hostingTitle">
-            <h2 id="hostingTitle">Web Hosting</h2>
-            <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-        </section>
+        <!-- Estadísticas rápidas -->
+        <div class="row text-center">
+            <div class="col-md-4 mb-4">
+                <div class="card bg-dark text-light shadow-lg">
+                    <div class="card-body">
+                        <h5 class="card-title" style="color: #b19cd9;">Total de Personas</h5>
+                        <p class="card-text display-6" style="color: #ffd700;">128</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card bg-dark text-light shadow-lg">
+                    <div class="card-body">
+                        <h5 class="card-title" style="color: #b19cd9;">Usuarios Activos</h5>
+                        <p class="card-text display-6" style="color: #ffd700;">23</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card bg-dark text-light shadow-lg">
+                    <div class="card-body">
+                        <h5 class="card-title" style="color: #b19cd9;">Últimos Registros</h5>
+                        <p class="card-text display-6" style="color: #ffd700;">15</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabla de Acciones Rápidas -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card bg-dark shadow-lg">
+                    <div class="card-header" style="background-color: #3c3b6e; color: #ffffff;">
+                        <h5 class="mb-0">Acciones Rápidas</h5>
+                    </div>
+                    <div class="card-body text-light">
+                        <div class="row">
+                            <div class="col-md-6 col-lg-3 mb-3">
+                                <!-- Usando Razor para generar el link dinámicamente -->
+                                <a href="@Url.Action("Create", "People")" class="btn btn-primary w-100" style="background-color: #6a0dad; border: none;">Registrar Nueva Persona</a>
+                            </div>
+                            <div class="col-md-6 col-lg-3 mb-3">
+                                <!-- Usando Razor para generar el link dinámicamente -->
+                                <a href="@Url.Action("Register", "Auth")" class="btn btn-primary w-100" style="background-color: #6a0dad; border: none;">Registrar Nuevo Usuario</a>
+                            </div>
+                            <div class="col-md-6 col-lg-3 mb-3">
+                                <!-- Usando Razor para generar el link dinámicamente -->
+                                <a href="@Url.Action("Index", "People")" class="btn btn-outline-light w-100">Ver Lista de Personas</a>
+                            </div>
+                            <div class="col-md-6 col-lg-3 mb-3">
+                                <!-- Usando Razor para generar el link dinámicamente -->
+                                <a href="@Url.Action("Index", "Users")" class="btn btn-outline-light w-100">Ver Lista de Usuarios</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </main>

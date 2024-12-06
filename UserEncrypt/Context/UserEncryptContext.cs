@@ -10,13 +10,18 @@ namespace UserEncrypt.Context
 {
     public class UserEncryptContext : DbContext
     {
-        public UserEncryptContext() : base("name=UserEncrypt") { }
+        public UserEncryptContext() : base("name=UserEncryptContext") { }
         public DbSet<Person> People { get; set; }
+        public DbSet<User> Users { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Person>()
             .ToTable("People")
             .HasKey(p => p.Id);
+
+            modelBuilder.Entity<User>()
+            .ToTable("Users")
+            .HasKey(u => u.Id);
 
             base.OnModelCreating(modelBuilder);
         }

@@ -1,0 +1,163 @@
+﻿@model IEnumerable<UserEncrypt.Models.Person>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    /* Estilos generales */
+    body {
+        background-color: #1a1a1a; /* Fondo oscuro */
+        color: white; /* Texto blanco */
+        font-family: Arial, sans-serif;
+    }
+
+    h2 {
+        color: #D1B0FF; /* Morado claro */
+        text-align: center;
+    }
+
+    p {
+        text-align: center;
+    }
+
+    .table {
+        width: 100%;
+        margin: 20px 0;
+        border-collapse: collapse;
+        background-color: #333;
+    }
+
+        .table th, .table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .table th {
+            background-color: #5F1FB4; /* Morado oscuro */
+            color: #fff;
+        }
+
+        .table tr:nth-child(even) {
+            background-color: #444; /* Fondo gris oscuro */
+        }
+
+        .table tr:hover {
+            background-color: #3D1A80; /* Morado más intenso al pasar el ratón */
+        }
+
+        .table td {
+            color: #fff;
+        }
+
+        .table a {
+            color: #FFD700; /* Dorado */
+            text-decoration: none;
+            padding: 5px;
+            border-radius: 5px;
+        }
+
+            .table a:hover {
+                background-color: #B8860B; /* Dorado más oscuro */
+                color: #fff;
+            }
+
+    /* Botones de acción */
+    .action-buttons {
+        display: flex;
+        gap: 10px;
+    }
+
+        .action-buttons a {
+            background-color: #5F1FB4;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+            .action-buttons a:hover {
+                background-color: #3D1A80;
+            }
+
+    .btn-add-person {
+        background-color: #2E0F60;
+        padding: 10px;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 10px;
+    }
+
+    .btn-add-person:hover {
+        background-color: #3D1A80; /* Morado más oscuro */
+    }
+
+    .btn-add-person:active {
+        background-color: #2E0F60; /* Morado aún más oscuro */
+    }
+</style>
+
+<h2>Inicio</h2>
+
+<p>
+<p>
+    <!-- Botón Agregar Persona -->
+    <a href="@Url.Action("Create")" class="btn-add-person">Agregar Persona</a>
+</p>
+</p>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IdentificationNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreatedAt)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DocumentType)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdentificationNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedAt)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DocumentType)
+            </td>
+            <td class="action-buttons">
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
+</table>

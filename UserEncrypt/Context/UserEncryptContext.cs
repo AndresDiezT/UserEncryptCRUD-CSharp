@@ -18,35 +18,6 @@ namespace UserEncrypt.Context
             .ToTable("People")
             .HasKey(p => p.Id);
 
-            modelBuilder.Entity<Person>()
-             .Property(p => p.Id)
-             .IsRequired()
-             .HasColumnName("Id");
-
-            modelBuilder.Entity<Person>()
-             .Property(p => p.FirstName)
-             .IsRequired()
-             .HasMaxLength(50);
-
-            modelBuilder.Entity<Person>()
-             .Property(p => p.LastName)
-             .IsRequired()
-             .HasMaxLength(50);
-
-            modelBuilder.Entity<Person>()
-             .Property(p => p.IdentificationNumber)
-             .IsRequired()
-             .HasMaxLength(10);
-
-            modelBuilder.Entity<Person>()
-             .Property(p => p.Email)
-             .IsRequired()
-             .HasMaxLength(50);
-
-            modelBuilder.Entity<Person>()
-             .Property(p => p.DocumentType)
-             .IsRequired()
-             .HasMaxLength(5);
             base.OnModelCreating(modelBuilder);
         }
     }

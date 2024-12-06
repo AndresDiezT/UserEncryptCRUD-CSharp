@@ -18,11 +18,6 @@ namespace UserEncrypt.Context
             modelBuilder.Entity<Person>()
             .ToTable("People")
             .HasKey(p => p.Id);
-
-            modelBuilder.Entity<User>()
-            .ToTable("Users")
-            .HasKey(u => u.Id);
-
             base.OnModelCreating(modelBuilder);
         }
     }

@@ -1,0 +1,33 @@
+﻿@model UserEncrypt.Models.LoginModel
+
+@{
+    ViewBag.Title = "Login";
+}
+
+<h2>Login</h2>
+
+<!-- Mensajes de validación general -->
+<div>
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+</div>
+
+<!-- Formulario de Login -->
+@using (Html.BeginForm("Login", "Auth", FormMethod.Post))
+{
+    <div class="form-group">
+        <!-- Campo para el Nombre de Usuario -->
+        <label for="Username">@Html.DisplayNameFor(model => model.Username)</label>
+        @Html.TextBoxFor(model => model.Username, new { @class = "form-control", placeholder = "Ingrese su usuario" })
+        @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        <!-- Campo para la Contraseña -->
+        <label for="Password">@Html.DisplayNameFor(model => model.Password)</label>
+        @Html.PasswordFor(model => model.Password, new { @class = "form-control", placeholder = "Ingrese su contraseña" })
+        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+    </div>
+
+    <!-- Botón para enviar el formulario -->
+    <button type="submit" class="btn btn-primary">Ingresar</button>
+}

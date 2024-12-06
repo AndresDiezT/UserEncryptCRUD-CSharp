@@ -18,3 +18,48 @@ select,
 textarea {
     max-width: 280px;
 }
+
+
+
+
+#sidebar {
+    min-width: 250px;
+    max-width: 250px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1030;
+    overflow-y: auto;
+    transition: all 0.3s ease;
+}
+
+    #sidebar ul.nav {
+        padding-left: 0;
+    }
+
+        #sidebar ul.nav .nav-link {
+            font-size: 1.1rem;
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+            #sidebar ul.nav .nav-link:hover {
+                background-color: #6a0dad;
+                border-radius: 4px;
+            }
+
+#content {
+    margin-left: 250px;
+    transition: all 0.3s ease;
+}
+
+#sidebar.hidden {
+    margin-left: -250px;
+}
+
+#content.expanded {
+    margin-left: 0;
+}

@@ -2,100 +2,32 @@
 
 @{
     ViewBag.Title = "Login";
-    Layout = User.Identity.IsAuthenticated ? "~/Views/Shared/_Layout.cshtml" : null;
 }
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <style>
-        /* Colores personalizados */
-        body {
-            background-color: #121212;
-            color: #ffffff;
-        }
+<h2>Login</h2>
 
-        .form-control {
-            background-color: #2c2c2c;
-            color: #ffffff;
-            border: 1px solid #6a0dad;
-        }
+<!-- Mensajes de validación general -->
+<div>
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+</div>
 
-            .form-control::placeholder {
-                color: #999999;
-            }
-
-            .form-control:focus {
-                background-color: #2c2c2c;
-                border-color: #6a0dad;
-                box-shadow: 0 0 0 0.2rem rgba(106, 13, 173, 0.25);
-            }
-
-        .btn-primary {
-            background-color: #6a0dad;
-            border-color: #6a0dad;
-        }
-
-            .btn-primary:hover {
-                background-color: #531186;
-                border-color: #531186;
-            }
-
-        .text-danger {
-            color: #ff6b6b;
-        }
-
-        h2 {
-            color: #ffffff;
-            text-align: center;
-            margin-bottom: 1rem;
-        }
-
-        .login-container {
-            max-width: 400px;
-            margin: 5rem auto;
-            padding: 2rem;
-            border-radius: 10px;
-            background-color: #1e1e1e;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-        }
-    </style>
-</head>
-<body>
-    <div class="login-container">
-        <h2>Login</h2>
-
-        <!-- Mensajes de validación general -->
-        <div>
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        </div>
-
-        <!-- Formulario de Login -->
-        @using (Html.BeginForm("Login", "Auth", FormMethod.Post))
-        {
-            <div class="form-group mb-3">
-                <!-- Campo para el Nombre de Usuario -->
-                <label for="Username" class="form-label">@Html.DisplayNameFor(model => model.Username)</label>
-                @Html.TextBoxFor(model => model.Username, new { @class = "form-control", placeholder = "Ingrese su usuario" })
-                @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
-            </div>
-
-            <div class="form-group mb-3">
-                <!-- Campo para la Contraseña -->
-                <label for="Password" class="form-label">@Html.DisplayNameFor(model => model.Password)</label>
-                @Html.PasswordFor(model => model.Password, new { @class = "form-control", placeholder = "Ingrese su contraseña" })
-                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
-            </div>
-
-            <!-- Botón para enviar el formulario -->
-            <button type="submit" class="btn btn-primary w-100">Ingresar</button>
-        }
+<!-- Formulario de Login -->
+@using (Html.BeginForm("Login", "Auth", FormMethod.Post))
+{
+    <div class="form-group">
+        <!-- Campo para el Nombre de Usuario -->
+        <label for="Username">@Html.DisplayNameFor(model => model.Username)</label>
+        @Html.TextBoxFor(model => model.Username, new { @class = "form-control", placeholder = "Ingrese su usuario" })
+        @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+    <div class="form-group">
+        <!-- Campo para la Contraseña -->
+        <label for="Password">@Html.DisplayNameFor(model => model.Password)</label>
+        @Html.PasswordFor(model => model.Password, new { @class = "form-control", placeholder = "Ingrese su contraseña" })
+        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+    </div>
+
+    <!-- Botón para enviar el formulario -->
+    <button type="submit" class="btn btn-primary">Ingresar</button>
+}

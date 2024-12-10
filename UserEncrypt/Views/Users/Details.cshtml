@@ -1,40 +1,59 @@
 ﻿@model UserEncrypt.Models.User
 
 @{
-    ViewBag.Title = "Detalles del Usuario";
+    ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<!-- Título de la página -->
-<h2 class="text-center mb-4" style="color: white;">Detalles del Usuario</h2>
+<h2>Details</h2>
 
-<!-- Contenedor de los detalles del usuario -->
-<div class="container mt-4">
-    <div class="card shadow-lg" style="background-color: #000000; color: white; border: 1px solid #6a0dad;">
-        <div class="card-header text-white" style="background-color: #6a0dad;">
-            <h4 class="mb-0">Información del Usuario</h4>
-        </div>
-        <div class="card-body">
-            <dl class="row">
-                <dt class="col-sm-4">Nombre de Usuario</dt>
-                <dd class="col-sm-8">
-                    <strong>@Html.DisplayFor(model => model.Username)</strong>
-                </dd>
+<div>
+    <h4>User</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Username)
+        </dt>
 
-                <dt class="col-sm-4">Fecha de Creación</dt>
-                <dd class="col-sm-8">
-                    <strong>@Html.DisplayFor(model => model.CreatedAt)</strong>
-                </dd>
-            </dl>
-        </div>
-        <div class="card-footer text-right">
-            <!-- Botones de Acción -->
-            <a href="@Url.Action("Edit", "Users", new { id = Model.Id })"
-               class="btn btn-warning btn-sm"
-               style="color: black; font-weight: bold; margin-right: 10px;">Editar</a>
-            <a href="@Url.Action("Index", "Users")"
-               class="btn btn-secondary btn-sm"
-               style="color: white; background-color: #4b0082; border-color: #4b0082;">Volver a la Lista</a>
-        </div>
-    </div>
+        <dd>
+            @Html.DisplayFor(model => model.Username)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PasswordHash)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PasswordHash)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HashKey)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HashKey)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HashIV)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HashIV)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedAt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedAt)
+        </dd>
+
+    </dl>
 </div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

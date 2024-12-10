@@ -35,5 +35,35 @@ namespace UserEncrypt.Security
                 return Convert.ToBase64String(encrypted);
             }
         }
+        public string Decript(string encryptedPassword, List<byte[]> keys)
+        {
+            // Verifica que la lista de claves tenga al menos dos elementos: hashKey y hashIV
+            if (keys == null || keys.Count < 2)
+                throw new ArgumentException("HashKey and HashIV are required.");
+
+            byte[] hashKey = keys[0];  // La clave de encriptación
+            byte[] hashIV = keys[1];   // El vector de inicialización
+
+            // Se crea una instancia del algoritmo AES
+            using (Aes aesAlg = Aes.Create())
+            {
+                // Se establece la clave de encriptación y el vector de inicialización
+                aesAlg.Key = hashKey;
+                aesAlg.IV = hashIV;
+
+                // Crea el transformador para descifrar
+                ICryptoTransform decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
+
+                // Convierte la cadena cifrada en base64 a un arreglo de bytes
+                byte[] encryptedBytes = Convert.FromBase64String(encryptedPassword);
+
+                // Descifra los bytes
+                byte[] decrypted = decryptor.TransformFinalBlock(encryptedBytes, 0, encryptedBytes.Length);
+
+                // Convierte los bytes descifrados a una cadena usando UTF-8
+                return Encoding.UTF8.GetString(decrypted);
+            }
+        }
+
     }
 }

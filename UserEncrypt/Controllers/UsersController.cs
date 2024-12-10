@@ -55,8 +55,6 @@ namespace UserEncrypt.Controllers
         }
 
         // POST: Users/Edit/5
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
-        // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -64,9 +62,21 @@ namespace UserEncrypt.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(user).State = EntityState.Modified;
+                var existingUser = db.Users.Find(user.Id);
+                if (existingUser == null)
+                {
+                    return HttpNotFound();
+                }
+
+                existingUser.Username = user.Username;
+                existingUser.PasswordHash = user.PasswordHash;
+                existingUser.HashKey = user.HashKey;
+                existingUser.HashIV = user.HashIV;
+                existingUser.CreatedAt = user.CreatedAt;
+
+                db.Entry(existingUser).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Users");
             }
             return View(user);
         }

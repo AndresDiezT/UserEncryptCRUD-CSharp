@@ -4,14 +4,44 @@
     ViewBag.Title = "Registrar Usuario";
 }
 
+<style>
+    .form-container {
+        max-width: 500px;
+        margin: 0 auto;
+    }
+
+    .form-group {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .form-label {
+        text-align: left;
+        width: 100%;
+    }
+
+    .form-control {
+        width: 100%; /* Asegura que ocupe todo el ancho del contenedor */
+        max-width: 450px; /* Tamaño máximo del input */
+        box-sizing: border-box;
+    }
+
+    .btn-primary {
+        width: 100%; /* Botón que ocupa el ancho completo */
+        max-width: 200px; /* Tamaño máximo del botón */
+    }
+</style>
+
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <div class="card shadow">
-                <div class="card-header bg-primary text-white text-center">
+            <div class="card shadow-lg" style="background-color: #000000; color: white; border: 1px solid #6a0dad;">
+                <div class="card-header text-center" style="background-color: #6a0dad; color: white;">
                     <h3>Registro de Usuario</h3>
                 </div>
-                <div class="card-body">
+                <div class="card-body form-container">
                     <!-- Mensajes de validación generales -->
                     @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
 
@@ -20,28 +50,25 @@
                     {
                         @Html.AntiForgeryToken()
 
-                        <div class="form-group">
+                        <div class="form-group mb-3">
                             <!-- Campo para el Nombre de Usuario -->
                             <label for="Username" class="form-label">@Html.DisplayNameFor(model => model.Username)</label>
-                            @Html.TextBoxFor(model => model.Username, new { @class = "form-control", placeholder = "Ingrese su nombre de usuario" })
+                            @Html.TextBoxFor(model => model.Username, new { @class = "form-control", placeholder = "Ingrese el nombre de usuario" })
                             @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
                         </div>
 
-                        <div class="form-group mt-3">
+                        <div class="form-group mb-3">
                             <!-- Campo para la Contraseña -->
                             <label for="PasswordHash" class="form-label">@Html.DisplayNameFor(model => model.PasswordHash)</label>
-                            @Html.PasswordFor(model => model.PasswordHash, new { @class = "form-control", placeholder = "Ingrese su contraseña" })
+                            @Html.PasswordFor(model => model.PasswordHash, new { @class = "form-control", placeholder = "Ingrese la contraseña" })
                             @Html.ValidationMessageFor(model => model.PasswordHash, "", new { @class = "text-danger" })
                         </div>
 
                         <!-- Botón para enviar el formulario -->
                         <div class="form-group mt-4 text-center">
-                            <button type="submit" class="btn btn-primary btn-block">Registrar</button>
+                            <button type="submit" class="btn btn-primary" style="background-color: #6a0dad; border-color: #6a0dad;">Registrar</button>
                         </div>
                     }
-                </div>
-                <div class="card-footer text-center">
-                    <small>¿Ya tienes una cuenta? <a href="/Auth/Login" class="text-primary">Inicia sesión</a></small>
                 </div>
             </div>
         </div>

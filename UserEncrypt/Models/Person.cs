@@ -12,23 +12,26 @@ namespace UserEncrypt.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        [Required]
-        [StringLength(50, MinimumLength = 4, ErrorMessage = "Este campo debe tener entre 4 a 50 caracteres.")]
-        public string Nombre { get; set; }
-        [Required]
-        [StringLength(50, MinimumLength = 4, ErrorMessage = "Este campo debe tener entre 4 a 50 caracteres.")]
-        public string Apellido { get; set; }
-        [Required]
-        [StringLength(10, ErrorMessage = "Este campo debe tener maximo 10 caracteres.")]
-        public string NumeroIdentificacion { get; set; }
-        [Required]
-        [EmailAddress]
-        [StringLength(50, ErrorMessage = "Este campo debe tener entre 9 a 50 caracteres")]
+        [Required(ErrorMessage = "Este campo es requerido.")]
+        [StringLength(50, MinimumLength = 5, ErrorMessage = "Este campo debe tener entre 5 a 50 caracteres.")]
+        [Display(Name = "Nombres")]
+        public string FirstName { get; set; }
+        [Required(ErrorMessage = "Este campo es requerido.")]
+        [StringLength(50, MinimumLength = 5, ErrorMessage = "Este campo debe tener entre 5 a 50 caracteres.")]
+        [Display(Name = "Apellidos")]
+        public string LastName { get; set; }
+        [Required(ErrorMessage = "Este campo es requerido.")]
+        [StringLength(10, MinimumLength = 5, ErrorMessage = "Este campo debe tener entre 5 a 10 caracteres.")]
+        [Display(Name = "Numero de identificacion")]
+        public string IdentificationNumber { get; set; }
+        [Required(ErrorMessage = "Este campo es requerido.")]
+        [StringLength(50, MinimumLength = 10, ErrorMessage = "Este campo debe tener entre 10 a 50 caracteres.")]
+        [Display(Name = "Email")]
         public string Email { get; set; }
-        [Required]
-        public DateTime FechaCreacion { get; set; }
-        [Required]
-        public int TipoDocumentoId { get; set; }
-       
+        public DateTime CreatedAt { get; set; }
+        [Required(ErrorMessage = "Este campo es requerido.")]
+        [StringLength(5, MinimumLength = 2, ErrorMessage = "Este campo debe tener entre 2 a 5 caracteres.")]
+        [Display(Name = "Tipo Documento")]
+        public string DocumentType { get; set; }
     }
 }

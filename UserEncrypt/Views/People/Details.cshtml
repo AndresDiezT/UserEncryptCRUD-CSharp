@@ -1,0 +1,51 @@
+﻿@model UserEncrypt.Models.Person
+
+@{
+    ViewBag.Title = "Detalles de Persona";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5">
+    <!-- Título -->
+    <h2 class="text-center mb-4" style="color: white;">Detalles de Persona</h2>
+
+    <!-- Tarjeta de detalles -->
+    <div class="card shadow-lg" style="background-color: #1a1a1a; color: white; border: 1px solid #6a0dad;">
+        <div class="card-header text-center" style="background-color: #6a0dad; color: white;">
+            <h4>Información Personal</h4>
+        </div>
+        <div class="card-body">
+            <!-- Lista de detalles -->
+            <dl class="row">
+                <dt class="col-sm-4">Nombre</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.FirstName)</dd>
+
+                <dt class="col-sm-4">Apellido</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.LastName)</dd>
+
+                <dt class="col-sm-4">Número de Identificación</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.IdentificationNumber)</dd>
+
+                <dt class="col-sm-4">Correo Electrónico</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Email)</dd>
+
+                <dt class="col-sm-4">Fecha de Creación</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.CreatedAt)</dd>
+
+                <dt class="col-sm-4">Tipo de Documento</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.DocumentType)</dd>
+            </dl>
+        </div>
+        <div class="card-footer text-center">
+            <!-- Botones de acción -->
+            <a href="@Url.Action("Edit", new { id = Model.Id })"
+               class="btn btn-warning me-2">
+                Editar
+            </a>
+            <a href="@Url.Action("Index")"
+               class="btn btn-secondary">
+                Volver a la Lista
+            </a>
+        </div>
+    </div>
+</div>

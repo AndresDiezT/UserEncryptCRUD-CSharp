@@ -1,0 +1,79 @@
+﻿@model UserEncrypt.Models.Person
+
+@{
+    ViewBag.Title = "Crear Persona";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Contenedor principal con Bootstrap -->
+<div class="container mt-5">
+
+    <!-- Título -->
+    <h2 class="text-center mb-4" style="color: #D1B0FF;">Agregar Persona</h2>
+
+    <!-- Formulario de creación con Bootstrap -->
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="card shadow-lg" style="background-color: #333; border-color: #5F1FB4;">
+            <div class="card-header text-center" style="background-color: #5F1FB4; color: white;">
+                <h4>Formulario de Creación</h4>
+            </div>
+            <div class="card-body">
+
+                @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
+
+                <!-- Campo para Nombre -->
+                <div class="form-group">
+                    @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label text-white" })
+                    @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control", placeholder = "Ingrese el nombre" } })
+                    @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                </div>
+
+                <!-- Campo para Apellido -->
+                <div class="form-group">
+                    @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label text-white" })
+                    @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control", placeholder = "Ingrese el apellido" } })
+                    @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                </div>
+
+                <!-- Campo para Número de Identificación -->
+                <div class="form-group">
+                    @Html.LabelFor(model => model.IdentificationNumber, htmlAttributes: new { @class = "control-label text-white" })
+                    @Html.EditorFor(model => model.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", placeholder = "Ingrese el número de identificación" } })
+                    @Html.ValidationMessageFor(model => model.IdentificationNumber, "", new { @class = "text-danger" })
+                </div>
+
+                <!-- Campo para Correo Electrónico -->
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label text-white" })
+                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", placeholder = "Ingrese el correo electrónico" } })
+                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                </div>
+
+                <!-- Campo para Tipo de Documento -->
+                <div class="form-group">
+                    @Html.LabelFor(model => model.DocumentType, htmlAttributes: new { @class = "control-label text-white" })
+                    @Html.EditorFor(model => model.DocumentType, new { htmlAttributes = new { @class = "form-control", placeholder = "Seleccione el tipo de documento" } })
+                    @Html.ValidationMessageFor(model => model.DocumentType, "", new { @class = "text-danger" })
+                </div>
+
+            </div>
+
+            <!-- Botón de Submit -->
+            <div class="card-footer text-center">
+                <button type="submit" class="btn w-100" style="background-color: #6a0dad; color: white; border: none;">Agregar Persona</button>
+            </div>
+        </div>
+    }
+
+    <!-- Enlace para volver a la lista -->
+    <div class="text-center mt-3">
+        @Html.ActionLink("Volver a la Lista", "Index", new { @class = "btn btn-link", style = "color: #FFD700;" })
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

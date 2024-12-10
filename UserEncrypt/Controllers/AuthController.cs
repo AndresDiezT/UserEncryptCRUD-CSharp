@@ -37,6 +37,13 @@ namespace UserEncrypt.Controllers
         }
 
         [HttpGet]
+        [Authorize]
+        public ActionResult ChangePassword()
+        {
+            return View();
+        }
+
+        [HttpGet]
         public ActionResult Register()
         {
             return View();
@@ -163,7 +170,7 @@ namespace UserEncrypt.Controllers
                 return View(user);
             }
 
-            return RedirectToAction("Auth", "Login");
+            return RedirectToAction("Index", "Users");
         }
 
         public ActionResult Logout()
@@ -179,11 +186,77 @@ namespace UserEncrypt.Controllers
                 Response.Cookies.Add(cookie);
             }
 
-            // Redirigir al usuario a la pagina de inicio de sesión o a la pagina principal
+            // Limpiar la sesión si es necesario
+            Session.Clear(); // Esto elimina cualquier dato guardado en la sesión
+
+            // Si estás usando autenticación basada en Forms
+            FormsAuthentication.SignOut(); // Desconecta al usuario de la aplicación
+
+            // Redirigir al usuario a la página de inicio de sesión o a la página principal
             return RedirectToAction("Login", "Auth");
         }
 
-        protected override void Dispose(bool disposing)
+        [HttpPost]
+        [Authorize] // Solo usuarios autenticados pueden cambiar su contraseña
+        [ValidateAntiForgeryToken]
+        public ActionResult ChangePassword(ChangePasswordModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            // Obtener el usuario autenticado
+            var username = User.Identity.Name;
+            var user = db.Users.SingleOrDefault(u => u.Username == username);
+
+            if (user == null)
+            {
+                // En caso de error (usuario no encontrado)
+                ModelState.AddModelError("", "Ocurrió un error. Intenta nuevamente.");
+                return View(model);
+            }
+
+            // Verificar la contraseña actual
+            var passwordDecrypted = _paswordEncripter.Decript(user.PasswordHash, new List<byte[]> { user.HashKey, user.HashIV });
+            if (passwordDecrypted != model.CurrentPassword)
+            {
+                ModelState.AddModelError("CurrentPassword", "La contraseña actual es incorrecta.");
+                return View(model);
+            }
+
+            // Actualizar la contraseña
+            try
+            {
+                // Generar nuevas claves para cifrar la nueva contraseña
+                var newKey = new byte[32];
+                var newIv = new byte[16];
+                using (var rng = new RNGCryptoServiceProvider())
+                {
+                    rng.GetBytes(newKey);
+                    rng.GetBytes(newIv);
+                }
+
+                var newEncryptedPassword = _paswordEncripter.Encript(model.NewPassword, new List<byte[]> { newKey, newIv });
+
+                // Actualizar la información en la base de datos
+                user.PasswordHash = newEncryptedPassword;
+                user.HashKey = newKey;
+                user.HashIV = newIv;
+
+                db.SaveChanges();
+
+                TempData["SuccessMessage"] = "Tu contraseña ha sido cambiada exitosamente.";
+                return RedirectToAction("Index", "Home"); // Redirigir al usuario a una página principal
+            }
+            catch
+            {
+                ModelState.AddModelError("", "Ocurrió un error al actualizar la contraseña. Intenta nuevamente.");
+                return View(model);
+            }
+        }
+
+    protected override void Dispose(bool disposing)
         {
             if (disposing)
             {

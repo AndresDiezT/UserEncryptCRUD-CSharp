@@ -5,132 +5,137 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<style>
-    .form-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        background-color: #333;
-        padding: 30px;
-        border-radius: 10px;
-        max-width: 600px;
-        margin: 0 auto;
-    }
-
-        .form-container h4 {
-            color: #D1B0FF;
-            text-align: center;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    <style>
+        body {
+            background-color: #1f1f2e; /* Fondo oscuro */
+            font-family: Arial, sans-serif;
         }
 
-        .form-container hr {
-            border-color: #5F1FB4;
+        .form-container {
+            background-color: #2a2a3b; /* Fondo del formulario */
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 600px;
+            margin: 2rem auto;
+            color: #ffffff;
         }
 
-    .form-group {
-        margin-bottom: 20px;
-    }
+            .form-container h2 {
+                text-align: center;
+                color: #ffd700; /* Título dorado */
+                margin-bottom: 1.5rem;
+            }
 
         .form-group label {
-            color: #D1B0FF;
+            color: #ffffff;
             font-weight: bold;
         }
 
-    .form-control {
-        border-radius: 5px;
-        padding: 10px;
-        background-color: #444;
-        color: #fff;
-        border: 1px solid #5F1FB4;
-    }
-
-        .form-control:focus {
-            background-color: #555;
-            border-color: #5F1FB4;
-            box-shadow: 0 0 5px rgba(95, 31, 180, 0.8);
+        .form-control {
+            background-color: #3a3a4d;
+            border: 1px solid #ccc;
+            color: #ffffff;
+            border-radius: 5px;
+            padding: 0.5rem;
         }
 
-    .btn-primary {
-        background-color: #5F1FB4;
-        border-color: #5F1FB4;
-        border-radius: 5px;
-        padding: 10px 20px;
-        font-weight: bold;
-        width: 100%;
-        transition: background-color 0.3s ease;
-    }
+            .form-control::placeholder {
+                color: #bbbbbb;
+            }
 
-        .btn-primary:hover {
-            background-color: #4a1686;
-            border-color: #4a1686;
+        .btn-submit {
+            background-color: #6a0dad; /* Botón morado */
+            color: #ffffff;
+            border: none;
+            padding: 0.75rem;
+            width: 100%;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
         }
 
-    .text-center a {
-        color: #FFD700;
-        font-weight: bold;
-    }
-</style>
+            .btn-submit:hover {
+                background-color: #8a2be2; /* Efecto hover */
+            }
 
-<h2 class="text-center" style="color: #D1B0FF;">Agregar Persona</h2>
+        .text-danger {
+            color: #ff4d4d;
+            font-size: 0.875rem;
+        }
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
+        .back-link {
+            text-align: center;
+            margin-top: 1rem;
+        }
 
+            .back-link a {
+                color: #ffd700; /* Dorado */
+                text-decoration: none;
+            }
+
+                .back-link a:hover {
+                    text-decoration: underline;
+                }
+    </style>
+</head>
+<body>
     <div class="form-container">
+        <h2>Create Person</h2>
 
-        <h4>Persona</h4>
-        <hr />
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
 
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-        <!-- Campo First Name -->
-        <div class="form-group">
-            @Html.LabelFor(model => model.FirstName)
-            @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.FirstName)
+                @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control", placeholder = "Ingrese el nombre" } })
+                @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.LastName)
+                @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control", placeholder = "Ingrese el apellido" } })
+                @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.IdentificationNumber)
+                @Html.EditorFor(model => model.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", placeholder = "Ingrese el número de identificación" } })
+                @Html.ValidationMessageFor(model => model.IdentificationNumber, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Email)
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", placeholder = "Ingrese el correo electrónico" } })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.DocumentType)
+                @Html.EditorFor(model => model.DocumentType, new { htmlAttributes = new { @class = "form-control", placeholder = "Ingrese el tipo de documento" } })
+                @Html.ValidationMessageFor(model => model.DocumentType, "", new { @class = "text-danger" })
+            </div>
+
+            <button type="submit" class="btn-submit">Create</button>
+        }
+
+        <div class="back-link">
+            @Html.ActionLink("Back to List", "Index")
         </div>
-
-        <!-- Campo Last Name -->
-        <div class="form-group">
-            @Html.LabelFor(model => model.LastName)
-            @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
-        </div>
-
-        <!-- Campo Identification Number -->
-        <div class="form-group">
-            @Html.LabelFor(model => model.IdentificationNumber)
-            @Html.EditorFor(model => model.IdentificationNumber, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.IdentificationNumber, "", new { @class = "text-danger" })
-        </div>
-
-        <!-- Campo Email -->
-        <div class="form-group">
-            @Html.LabelFor(model => model.Email)
-            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-        </div>
-
-        <!-- Campo Document Type -->
-        <div class="form-group">
-            @Html.LabelFor(model => model.DocumentType)
-            @Html.EditorFor(model => model.DocumentType, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.DocumentType, "", new { @class = "text-danger" })
-        </div>
-
-        <!-- Botón de Submit -->
-        <div class="form-group">
-            <input type="submit" value="Agregar" class="btn btn-primary" />
-        </div>
-
     </div>
-}
 
-<div class="text-center" style="margin-top: 20px;">
-    @Html.ActionLink("Back to List", "Index", new { @class = "btn btn-link", style = "color: #FFD700;" })
-</div>
-
-@section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-}
+</body>
+</html>

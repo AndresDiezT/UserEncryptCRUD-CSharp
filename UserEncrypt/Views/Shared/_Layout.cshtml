@@ -41,7 +41,12 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark">
-        <div class="container"
+        <div class="container">
+            <!-- Logo a la derecha -->
+            <div class="ms-auto">
+                @Html.ActionLink("EmpresaPro", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+
             <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Alternar navegación" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -62,8 +67,11 @@
                 </ul>
             </div>
 
-            <!-- Cerrar sesión a la derecha -->
+            <!-- Cerrar sesión y Cambiar contraseña a la derecha -->
             <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    @Html.ActionLink("Cambiar contraseña", "ChangePassword", "Auth", new { area = "" }, new { @class = "nav-link" })
+                </li>
                 <li class="nav-item">
                     @Html.ActionLink("Cerrar sesión", "Logout", "Auth", new { area = "" }, new { @class = "nav-link" })
                 </li>

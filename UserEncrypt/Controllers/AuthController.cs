@@ -26,7 +26,6 @@ namespace UserEncrypt.Controllers
         // Instancia de la clase AuthorizationService que se utiliza para la autenticacion de un usuario
         private readonly IAuthorizationService _authorizationService = new AuthorizationService();
 
-        // GET: Login
         public ActionResult Login()
         {
             if (User.Identity.IsAuthenticated)
@@ -42,67 +41,8 @@ namespace UserEncrypt.Controllers
             return View();
         }
 
-        [HttpPost]
-        [AllowAnonymous]
-        public ActionResult Login(LoginModel userData)
+        public ActionResult ChangePassword()
         {
-            try
-            {
-                // Se intenta autenticar al usuario utilizando el servicio de AuthorizationService
-                User user;
-                var result = _authorizationService.Auth(userData.Username, userData.Password, out user);
-
-                // Dependiendo del resultado de la autenticacion se toman diferentes casos
-                switch (result)
-                {
-                    // En caso que el resultado sea vacano
-                    case AuthResults.Success:
-                        // Si ya existe una cookie de autenticacion se elimina
-                        if (Request.Cookies["AuthCookie"] != null)
-                        {
-                            var existingCookie = new HttpCookie("AuthCookie")
-                            {
-                                Expires = DateTime.Now.AddDays(-1)
-                            };
-                            Response.Cookies.Add(existingCookie);
-                        }
-                        // se crea una nueva cookie de autenticacion con el nombre de usuario y una fecha de expiracion de 1 hora
-                        var cookie = new HttpCookie("AuthCookie", userData.Username)
-                        {
-                            Expires = DateTime.Now.AddHours(1)
-                        };
-                        FormsAuthentication.SetAuthCookie(userData.Username, false);
-                        Response.Cookies.Add(cookie);
-                        // Redirige a la pagina principal despues de la autenticacion exitosa
-                        return RedirectToAction("", "");
-
-                    // En caso de que el usuario no exista
-                    case AuthResults.NotExists:
-                        // Se envia un mensaje de error al usuario
-                        ModelState.AddModelError("", "El usuario no existe.");
-                        break;
-
-                    // En caso de que la contraseña no coincida
-                    case AuthResults.PasswordNotMatch:
-                        // Se envia un mensaje de error al usuario
-                        ModelState.AddModelError("", "Contraseña incorrecta.");
-                        break;
-
-                    // En caso de que el error sea desconocido
-                    default:
-                        // Se envia un mensaje de error al usuario
-                        ModelState.AddModelError("", "Error desconocido intenta nuevamente");
-                        break;
-                }
-            }
-            catch (Exception ex)
-            {
-                // Log de error de cualquier excepcion inesperada
-                Log.Error(ex, "Error during authentication process");
-
-                ModelState.AddModelError("", "Error desconocido intenta nuevamente");
-            }
-            // Si todo cool se redirige al usuario
             return View();
         }
 
@@ -113,6 +53,12 @@ namespace UserEncrypt.Controllers
         {
             try
             {
+                var userExist = db.Users.FirstOrDefault(u => u.Username == user.Username);
+                if (userExist != null)
+                {
+                    ModelState.AddModelError("", "El usuario ya existe.");
+                    return View(user);
+                }
                 // Se generan las claves para el cifrado
                 var key = new byte[32];
                 var iv = new byte[16];
@@ -124,7 +70,7 @@ namespace UserEncrypt.Controllers
                 }
                 // se encripta la contraseña utilizando la Key y IV generados
                 var passwordEncrypted = _paswordEncripter.Encript(user.PasswordHash, new List<byte[]> { key, iv });
-                
+
                 // Se crea un nuevo objeto de User donde se pone la contraseña cifrada y las claves generadas
                 var newUser = new User
                 {
@@ -163,7 +109,143 @@ namespace UserEncrypt.Controllers
                 return View(user);
             }
 
-            return RedirectToAction("Auth", "Login");
+            return RedirectToAction("Index", "Users");
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult Login(LoginModel userData)
+        {
+            try
+            {
+                // Se intenta autenticar al usuario utilizando el servicio de AuthorizationService
+                User user;
+                var result = _authorizationService.Auth(userData.Username, userData.Password, out user);
+
+                // Dependiendo del resultado de la autenticacion se toman diferentes casos
+                switch (result)
+                {
+                    // En caso que el resultado sea vacano
+                    case AuthResults.Success:
+                        // Si ya existe una cookie de autenticacion se elimina
+                        if (Request.Cookies["AuthCookie"] != null)
+                        {
+                            var existingCookie = new HttpCookie("AuthCookie")
+                            {
+                                Expires = DateTime.Now.AddDays(-1)
+                            };
+                            Response.Cookies.Add(existingCookie);
+                        }
+
+                        var authTicket = new FormsAuthenticationTicket(
+                            1,
+                            userData.Username,
+                            DateTime.Now,
+                            DateTime.Now.AddHours(1),
+                            false,
+                            userData.Username
+                            );
+
+                        string encryptedTicket = FormsAuthentication.Encrypt(authTicket);
+                        var authCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket)
+                        {
+                            HttpOnly = true,
+                            Expires = authTicket.Expiration
+                        };
+
+                        Response.Cookies.Add(authCookie);
+                        return RedirectToAction("", "");
+
+                    // En caso de que el usuario no exista
+                    case AuthResults.NotExists:
+                        // Se envia un mensaje de error al usuario
+                        ModelState.AddModelError("", "El usuario no existe.");
+                        break;
+
+                    // En caso de que la contraseña no coincida
+                    case AuthResults.PasswordNotMatch:
+                        // Se envia un mensaje de error al usuario
+                        ModelState.AddModelError("", "Contraseña incorrecta.");
+                        break;
+
+                    // En caso de que el error sea desconocido
+                    default:
+                        // Se envia un mensaje de error al usuario
+                        ModelState.AddModelError("", "Error desconocido intenta nuevamente");
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log de error de cualquier excepcion inesperada
+                Log.Error(ex, "Error during authentication process");
+
+                ModelState.AddModelError("", "Error desconocido intenta nuevamente");
+            }
+            // Si todo cool se redirige al usuario
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize]
+        public ActionResult ChangePassword(ChangePasswordModel model)
+        {
+            ViewBag.SuccessMessage = "";
+            if (ModelState.IsValid)
+            {
+                var username = User.Identity.Name;
+                var user = db.Users.FirstOrDefault(u => u.Username == username);
+
+                if (user == null)
+                {
+                    ModelState.AddModelError("", "El usuario no existe.");
+                    return View(model);
+                }
+
+                var passwordEncrypted = _paswordEncripter.Encript(model.CurrentPassword, new List<byte[]> { user.HashKey, user.HashIV });
+
+                if (passwordEncrypted != user.PasswordHash)
+                {
+                    ModelState.AddModelError("", "La contraseña actual es incorrecta.");
+                    return View(model);
+                }
+
+                if (model.NewPassword != model.ConfirmPassword)
+                {
+                    ModelState.AddModelError("", "La nueva contraseña y la confirmación no coinciden.");
+                    return View(model);
+                }
+
+                try
+                {
+                    var key = new byte[32];
+                    var iv = new byte[16];
+                    using (var rng = new RNGCryptoServiceProvider())
+                    {
+                        rng.GetBytes(key);
+                        rng.GetBytes(iv);
+                    }
+
+                    var newPasswordEncrypted = _paswordEncripter.Encript(model.NewPassword, new List<byte[]> { key, iv });
+
+                    user.PasswordHash = newPasswordEncrypted;
+                    user.HashKey = key;
+                    user.HashIV = iv;
+
+                    db.SaveChanges();
+
+                    ViewBag.SuccessMessage = "Contraseña cambiada exitosamente.";
+                    return RedirectToAction("", "");
+                }
+                catch (Exception ex)
+                {
+                    Log.Error(ex, "Error al cambiar la contraseña.");
+                    ModelState.AddModelError("", "Hubo un problema al cambiar la contraseña. Intenta nuevamente.");
+                }
+            }
+
+            return View(model);
         }
 
         public ActionResult Logout()
@@ -178,7 +260,7 @@ namespace UserEncrypt.Controllers
                 // Eliminar la cookie
                 Response.Cookies.Add(cookie);
             }
-
+            FormsAuthentication.SignOut();
             // Redirigir al usuario a la pagina de inicio de sesión o a la pagina principal
             return RedirectToAction("Login", "Auth");
         }

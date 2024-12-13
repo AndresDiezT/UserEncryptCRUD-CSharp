@@ -64,7 +64,19 @@ namespace UserEncrypt.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(user).State = EntityState.Modified;
+                var userExist = db.Users.Find(user.Id);
+                if (userExist == null)
+                {
+                    return HttpNotFound();
+                }
+
+                userExist.Username = user.Username;
+                userExist.PasswordHash = user.PasswordHash;
+                userExist.HashKey = user.HashKey;
+                userExist.HashIV = user.HashIV;
+                userExist.CreatedAt = user.CreatedAt;
+
+                db.Entry(userExist).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

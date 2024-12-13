@@ -47,20 +47,13 @@ namespace UserEncrypt.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "FirstName,LastName,IdentificationNumber,Email,DocumentType")] Person person)
+        public ActionResult Create([Bind(Include = "Id,FirstName,LastName,IdentificationNumber,Email,CreatedAt,DocumentType")] Person person)
         {
             if (ModelState.IsValid)
             {
-                var newPerson = new Person
-                {
-                    FirstName = person.FirstName,
-                    LastName = person.LastName,
-                    Email = person.Email,
-                    DocumentType = person.DocumentType,
-                    IdentificationNumber = person.IdentificationNumber,
-                    CreatedAt = DateTime.UtcNow
-                };
-                db.People.Add(newPerson);
+                person.CreatedAt = DateTime.UtcNow;
+
+                db.People.Add(person);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -88,26 +81,22 @@ namespace UserEncrypt.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,FirstName,LastName,IdentificationNumber,Email,CreatedAt,DocumentType")] Person person)
+        public ActionResult Edit([Bind(Include = "Id,FirstName,LastName,IdentificationNumber,Email,DocumentType")] Person person)
         {
             if (ModelState.IsValid)
             {
                 var personExist = db.People.Find(person.Id);
-
                 if (personExist == null)
                 {
                     return HttpNotFound();
                 }
-                var editedPerson = new Person
-                {
-                    FirstName = person.FirstName,
-                    LastName = person.LastName,
-                    Email = person.Email,
-                    DocumentType = person.DocumentType,
-                    IdentificationNumber = person.IdentificationNumber,
-                    CreatedAt = DateTime.UtcNow
-                };
-                db.Entry(editedPerson).State = EntityState.Modified;
+                personExist.FirstName = person.FirstName;
+                personExist.LastName = person.LastName;
+                personExist.IdentificationNumber = person.IdentificationNumber;
+                personExist.Email = person.Email;
+                personExist.DocumentType = person.DocumentType;
+
+                db.Entry(personExist).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

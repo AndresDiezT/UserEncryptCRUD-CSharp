@@ -28,5 +28,7 @@ namespace UserEncrypt.Models
         public byte[] HashIV { get; set; }
         [HiddenInput]
         public DateTime CreatedAt { get; set; }
+
+        
     }
 }

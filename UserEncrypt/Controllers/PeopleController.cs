@@ -90,7 +90,6 @@ namespace UserEncrypt.Controllers
                 {
                     return HttpNotFound();
                 }
-
                 personExist.FirstName = person.FirstName;
                 personExist.LastName = person.LastName;
                 personExist.IdentificationNumber = person.IdentificationNumber;

@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Xml.Linq;
 
 namespace UserEncrypt.Models
 {
@@ -31,7 +32,7 @@ namespace UserEncrypt.Models
         public DateTime CreatedAt { get; set; }
         [Required(ErrorMessage = "Este campo es requerido.")]
         [StringLength(5, MinimumLength = 2, ErrorMessage = "Este campo debe tener entre 2 a 5 caracteres.")]
-        [Display(Name = "Tipo Documento")]
+        [Display(Name ="Tipo Documento")]
         public string DocumentType { get; set; }
     }
 }

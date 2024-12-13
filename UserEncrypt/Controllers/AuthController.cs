@@ -53,6 +53,12 @@ namespace UserEncrypt.Controllers
         {
             try
             {
+                var userExist = db.Users.FirstOrDefault(u => u.Username == user.Username);
+                if (userExist != null)
+                {
+                    ModelState.AddModelError("", "El usuario ya existe.");
+                    return View(user);
+                }
                 // Se generan las claves para el cifrado
                 var key = new byte[32];
                 var iv = new byte[16];
@@ -103,7 +109,7 @@ namespace UserEncrypt.Controllers
                 return View(user);
             }
 
-            return RedirectToAction("Home", "Index");
+            return RedirectToAction("Index", "Users");
         }
 
         [HttpPost]

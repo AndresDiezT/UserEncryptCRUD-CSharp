@@ -5,63 +5,105 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Details</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <style>
+        body {
+            background-color: #1f1f2e; /* Fondo oscuro */
+            font-family: Arial, sans-serif;
+            color: #ffffff;
+            padding: 20px;
+        }
 
-<div>
-    <h4>Person</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.FirstName)
-        </dt>
+        .details-container {
+            background-color: #2a2a3b; /* Fondo del contenedor */
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            margin: 0 auto;
+        }
 
-        <dd>
-            @Html.DisplayFor(model => model.FirstName)
-        </dd>
+            .details-container h2 {
+                margin-bottom: 1.5rem;
+                color: #ffd700; /* Título dorado */
+                text-align: center;
+            }
 
-        <dt>
-            @Html.DisplayNameFor(model => model.LastName)
-        </dt>
+            .details-container dt {
+                font-weight: bold;
+                color: #ffffff;
+                margin-top: 1rem;
+            }
 
-        <dd>
-            @Html.DisplayFor(model => model.LastName)
-        </dd>
+            .details-container dd {
+                margin-left: 0;
+                color: #bbbbbb; /* Texto gris claro */
+            }
 
-        <dt>
-            @Html.DisplayNameFor(model => model.IdentificationNumber)
-        </dt>
+        .btn-primary {
+            background-color: #6a0dad; /* Botón morado */
+            color: #ffffff;
+            border: none;
+            padding: 0.75rem;
+            width: 100%;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 1.5rem;
+        }
 
-        <dd>
-            @Html.DisplayFor(model => model.IdentificationNumber)
-        </dd>
+            .btn-primary:hover {
+                background-color: #8a2be2; /* Efecto hover */
+            }
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
+        .btn-secondary {
+            background-color: #444455;
+            color: #ffffff;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 1rem;
+            transition: background-color 0.3s ease;
+        }
 
-        <dd>
-            @Html.DisplayFor(model => model.Email)
-        </dd>
+            .btn-secondary:hover {
+                background-color: #666677;
+            }
+    </style>
+</head>
+<body>
+    <div class="details-container">
+        <h2>Details</h2>
+        <dl class="dl-horizontal">
+            <dt>@Html.DisplayNameFor(model => model.FirstName)</dt>
+            <dd>@Html.DisplayFor(model => model.FirstName)</dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.CreatedAt)
-        </dt>
+            <dt>@Html.DisplayNameFor(model => model.LastName)</dt>
+            <dd>@Html.DisplayFor(model => model.LastName)</dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.CreatedAt)
-        </dd>
+            <dt>@Html.DisplayNameFor(model => model.IdentificationNumber)</dt>
+            <dd>@Html.DisplayFor(model => model.IdentificationNumber)</dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.DocumentType)
-        </dt>
+            <dt>@Html.DisplayNameFor(model => model.Email)</dt>
+            <dd>@Html.DisplayFor(model => model.Email)</dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.DocumentType)
-        </dd>
+            <dt>@Html.DisplayNameFor(model => model.CreatedAt)</dt>
+            <dd>@Html.DisplayFor(model => model.CreatedAt)</dd>
 
-    </dl>
-</div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+            <dt>@Html.DisplayNameFor(model => model.DocumentType)</dt>
+            <dd>@Html.DisplayFor(model => model.DocumentType)</dd>
+        </dl>
+
+        <button class="btn-primary" onclick="location.href='@Url.Action("Edit", new { id = Model.Id })'">Editar</button>
+        <a class="btn-secondary" href="@Url.Action("Index")">Volver a la Lista</a>
+    </div>
+</body>
+</html>

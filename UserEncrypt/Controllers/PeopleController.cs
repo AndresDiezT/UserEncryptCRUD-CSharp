@@ -85,7 +85,19 @@ namespace UserEncrypt.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(person).State = EntityState.Modified;
+                var personExist = db.People.Find(person.Id);
+                if (personExist == null)
+                {
+                    return HttpNotFound();
+                }
+
+                personExist.FirstName = person.FirstName;
+                personExist.LastName = person.LastName;
+                personExist.IdentificationNumber = person.IdentificationNumber;
+                personExist.Email = person.Email;
+                personExist.DocumentType = person.DocumentType;
+
+                db.Entry(personExist).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

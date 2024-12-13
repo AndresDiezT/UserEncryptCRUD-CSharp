@@ -7,8 +7,8 @@
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <div class="card shadow" style="background-color: #222222; color: white;">
-                <div class="card-header" style="background-color: #6a0dad; color: white;">
+            <div class="card shadow" style="background-color: #222222; color: white; border-radius: 10px;">
+                <div class="card-header text-center" style="background-color: #6a0dad; color: white; border-top-left-radius: 10px; border-top-right-radius: 10px;">
                     <h3>Registro de Usuario</h3>
                 </div>
                 <div class="card-body">
@@ -20,26 +20,29 @@
                     {
                         @Html.AntiForgeryToken()
 
-                        <div class="form-group">
+                        <div class="form-group mb-4">
                             <!-- Campo para el Nombre de Usuario -->
-                            <label for="Username" class="form-label" style="color: #6a0dad;">@Html.DisplayNameFor(model => model.Username)</label>
+                            <label for="Username" class="form-label" style="color: #ffd700;">@Html.DisplayNameFor(model => model.Username)</label>
                             @Html.TextBoxFor(model => model.Username, new { @class = "form-control", placeholder = "Ingrese su nombre de usuario", style = "background-color: #333333; color: white;" })
                             @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
                         </div>
 
-                        <div class="form-group mt-3">
+                        <div class="form-group mb-4">
                             <!-- Campo para la Contraseña -->
-                            <label for="PasswordHash" class="form-label" style="color: #6a0dad;">@Html.DisplayNameFor(model => model.PasswordHash)</label>
+                            <label for="PasswordHash" class="form-label" style="color: #ffd700;">@Html.DisplayNameFor(model => model.PasswordHash)</label>
                             @Html.PasswordFor(model => model.PasswordHash, new { @class = "form-control", placeholder = "Ingrese su contraseña", style = "background-color: #333333; color: white;" })
                             @Html.ValidationMessageFor(model => model.PasswordHash, "", new { @class = "text-danger" })
                         </div>
 
                         <!-- Botón para enviar el formulario -->
                         <div class="form-group mt-4 text-center">
-                            <button type="submit" class="btn" style="background-color: #6a0dad; border-color: #6a0dad; color: white; width: 100%;">Registrar</button>
+                            <button type="submit" class="btn" style="background-color: #6a0dad; border-color: #6a0dad; color: white; width: 100%; border-radius: 5px;">Registrar</button>
                         </div>
                     }
                 </div>
+            </div>
+            <div class="mt-3 text-center">
+                @Html.ActionLink("Volver a la Lista", "Index", "Users", "Users", new { @class = "btn", style = "background-color: #3c3b6e; color: white; border-radius: 5px;" })
             </div>
         </div>
     </div>

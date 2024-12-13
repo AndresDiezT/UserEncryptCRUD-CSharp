@@ -1,65 +1,47 @@
 ﻿@model UserEncrypt.Models.User
 
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "Eliminar Usuario";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Delete</h2>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow" style="background-color: #222222; color: white;">
+                <div class="card-header" style="background-color: #6a0dad; color: white;">
+                    <h3>Eliminar Usuario</h3>
+                </div>
+                <div class="card-body">
+                    <h4>¿Está seguro de que desea eliminar este usuario?</h4>
+                    <hr style="border-color: #ffd700;" />
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Username)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.Username)
+                        </dd>
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>User</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Username)
-        </dt>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.CreatedAt)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.CreatedAt)
+                        </dd>
+                    </dl>
 
-        <dd>
-            @Html.DisplayFor(model => model.Username)
-        </dd>
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
 
-        <dt>
-            @Html.DisplayNameFor(model => model.PasswordHash)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PasswordHash)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.HashKey)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.HashKey)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.HashIV)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.HashIV)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CreatedAt)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CreatedAt)
-        </dd>
-
-    </dl>
-
-    @using (Html.BeginForm()) {
-        @Html.AntiForgeryToken()
-
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+                        <div class="form-actions text-center">
+                            <input type="submit" value="Eliminar" class="btn" style="background-color: #e74c3c; border: none; color: white; width: 45%; margin-right: 10px;" />
+                            @Html.ActionLink("Volver a la Lista", "Index", null, new { @class = "btn btn-secondary", style = "width: 45%; color: white; background-color: #3c3b6e; border: none;" })
+                        </div>
+                    }
+                </div>
+            </div>
         </div>
-    }
+    </div>
 </div>

@@ -11,101 +11,109 @@ using UserEncrypt.Models;
 
 namespace UserEncrypt.Controllers
 {
-    public class UsersController : Controller
+    public class PeopleController : Controller
     {
         private UserEncryptContext db = new UserEncryptContext();
 
-        // GET: Users
-        [Authorize]
+        // GET: People
         public ActionResult Index()
         {
-            return View(db.Users.ToList());
+            return View(db.People.ToList());
         }
 
-        // GET: Users/Details/5
-        [Authorize]
+        // GET: People/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            User user = db.Users.Find(id);
-            if (user == null)
+            Person person = db.People.Find(id);
+            if (person == null)
             {
                 return HttpNotFound();
             }
-            return View(user);
+            return View(person);
         }
 
-        // GET: Users/Edit/5
-        [Authorize]
+        // GET: People/Create
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: People/Create
+        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
+        // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create([Bind(Include = "Id,FirstName,LastName,IdentificationNumber,Email,CreatedAt,DocumentType")] Person person)
+        {
+            if (ModelState.IsValid)
+            {
+                person.CreatedAt = DateTime.UtcNow;
+
+                db.People.Add(person);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            return View(person);
+        }
+
+        // GET: People/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            User user = db.Users.Find(id);
-            if (user == null)
+            Person person = db.People.Find(id);
+            if (person == null)
             {
                 return HttpNotFound();
             }
-            return View(user);
+            return View(person);
         }
 
-        // POST: Users/Edit/5
+        // POST: People/Edit/5
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
-        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Username,PasswordHash,HashKey,HashIV,CreatedAt")] User user)
+        public ActionResult Edit([Bind(Include = "Id,FirstName,LastName,IdentificationNumber,Email,DocumentType")] Person person)
         {
             if (ModelState.IsValid)
             {
-                var userExist = db.Users.Find(user.Id);
-                if (userExist == null)
-                {
-                    return HttpNotFound();
-                }
-
-                userExist.Username = user.Username;
-                userExist.PasswordHash = user.PasswordHash;
-                userExist.HashKey = user.HashKey;
-                userExist.HashIV = user.HashIV;
-                userExist.CreatedAt = user.CreatedAt;
-
-                db.Entry(userExist).State = EntityState.Modified;
+                db.Entry(person).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(user);
+            return View(person);
         }
 
-        // GET: Users/Delete/5
-        [Authorize]
+        // GET: People/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            User user = db.Users.Find(id);
-            if (user == null)
+            Person person = db.People.Find(id);
+            if (person == null)
             {
                 return HttpNotFound();
             }
-            return View(user);
+            return View(person);
         }
 
-        // POST: Users/Delete/5
+        // POST: People/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            User user = db.Users.Find(id);
-            db.Users.Remove(user);
+            Person person = db.People.Find(id);
+            db.People.Remove(person);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

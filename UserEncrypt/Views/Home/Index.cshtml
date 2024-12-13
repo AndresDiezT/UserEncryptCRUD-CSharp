@@ -9,37 +9,9 @@
             <p class="lead text-light">Administra tus datos de manera eficiente y segura</p>
         </div>
 
-        <!-- Estadísticas rápidas -->
-        <div class="row text-center">
-            <div class="col-md-4 mb-4">
-                <div class="card bg-dark text-light shadow-lg">
-                    <div class="card-body">
-                        <h5 class="card-title" style="color: #b19cd9;">Total de Personas</h5>
-                        <p class="card-text display-6" style="color: #ffd700;">128</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 mb-4">
-                <div class="card bg-dark text-light shadow-lg">
-                    <div class="card-body">
-                        <h5 class="card-title" style="color: #b19cd9;">Usuarios Activos</h5>
-                        <p class="card-text display-6" style="color: #ffd700;">23</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 mb-4">
-                <div class="card bg-dark text-light shadow-lg">
-                    <div class="card-body">
-                        <h5 class="card-title" style="color: #b19cd9;">Últimos Registros</h5>
-                        <p class="card-text display-6" style="color: #ffd700;">15</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <!-- Tabla de Acciones Rápidas -->
         <div class="row">
-            <div class="col-12">
+            <div class="col-12 mb-4">
                 <div class="card bg-dark shadow-lg">
                     <div class="card-header" style="background-color: #3c3b6e; color: #ffffff;">
                         <h5 class="mb-0">Acciones Rápidas</h5>
@@ -47,22 +19,76 @@
                     <div class="card-body text-light">
                         <div class="row">
                             <div class="col-md-6 col-lg-3 mb-3">
-                                <!-- Usando Razor para generar el link dinámicamente -->
                                 <a href="@Url.Action("Create", "People")" class="btn btn-primary w-100" style="background-color: #6a0dad; border: none;">Registrar Nueva Persona</a>
                             </div>
                             <div class="col-md-6 col-lg-3 mb-3">
-                                <!-- Usando Razor para generar el link dinámicamente -->
                                 <a href="@Url.Action("Register", "Auth")" class="btn btn-primary w-100" style="background-color: #6a0dad; border: none;">Registrar Nuevo Usuario</a>
                             </div>
                             <div class="col-md-6 col-lg-3 mb-3">
-                                <!-- Usando Razor para generar el link dinámicamente -->
                                 <a href="@Url.Action("Index", "People")" class="btn btn-outline-light w-100">Ver Lista de Personas</a>
                             </div>
                             <div class="col-md-6 col-lg-3 mb-3">
-                                <!-- Usando Razor para generar el link dinámicamente -->
                                 <a href="@Url.Action("Index", "Users")" class="btn btn-outline-light w-100">Ver Lista de Usuarios</a>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Estadísticas rápidas -->
+        <div class="row text-center">
+            <div class="col-md-4 mb-4">
+                <div class="card bg-dark text-light shadow-lg">
+                    <div class="card-body">
+                        <h5 class="card-title" style="color: #b19cd9;">Total de Personas</h5>
+                        <p class="card-text display-6" style="color: #ffd700;">@ViewBag.TotalPersonas</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card bg-dark text-light shadow-lg">
+                    <div class="card-body">
+                        <h5 class="card-title" style="color: #b19cd9;">Usuarios Activos</h5>
+                        <p class="card-text display-6" style="color: #ffd700;">@ViewBag.TotalUsuarios</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card bg-dark text-light shadow-lg">
+                    <div class="card-body">
+                        <h5 class="card-title" style="color: #b19cd9;">Últimos Registros Usuarios</h5>
+                        <p class="card-text display-6" style="color: #ffd700;">@ViewBag.UltimosRegistros.Count</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabla de Últimos Usuarios Registrados -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card bg-dark shadow-lg">
+                    <div class="card-header" style="background-color: #3c3b6e; color: #ffffff;">
+                        <h5 class="mb-0">Últimos 5 Registros</h5>
+                    </div>
+                    <div class="card-body text-light">
+                        <table class="table table-dark table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Username</th>
+                                    <th>Fecha de Registro</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var user in ViewBag.UltimosRegistros)
+                                {
+                                    <tr>
+                                        <td>@user.Username</td>
+                                        <td>@user.CreatedAt.ToString("dd/MM/yyyy")</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

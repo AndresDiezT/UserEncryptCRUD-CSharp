@@ -1,41 +1,45 @@
 ﻿@model UserEncrypt.Models.User
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Editar Usuario";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Edit</h2>
+<h2 class="text-center" style="color: #b19cd9;">Editar Usuario</h2>
 
+<div class="container mt-4">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>User</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.Id)
+        <div class="card" style="background-color: #222222; color: white;">
+            <div class="card-body">
+                <h4 class="card-title" style="color: #ffd700;">Información del Usuario</h4>
+                <hr style="border-color: #6a0dad;" />
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Username, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                @Html.HiddenFor(model => model.Id)
+                @Html.HiddenFor(model => model.PasswordHash)
+                @Html.HiddenFor(model => model.HashKey)
+                @Html.HiddenFor(model => model.HashIV)
+                @Html.HiddenFor(model => model.CreatedAt)
+
+                <!-- Campo para el Nombre de Usuario -->
+                <div class="form-group mb-3">
+                    @Html.LabelFor(model => model.Username, htmlAttributes: new { @class = "form-label" })
+                    @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "form-control", placeholder = "Ingrese el nombre de usuario" } })
+                    @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+                </div>
+
+                <!-- Botones de acción -->
+                <div class="form-group text-center">
+                    <input type="submit" value="Guardar" class="btn" style="background-color: #6a0dad; border-color: #6a0dad; color: white;" />
+                    @Html.ActionLink("Volver a la Lista", "Index", null, new { @class = "btn", style = "background-color: #3c3b6e; color: white; margin-left: 10px;" })
+                </div>
             </div>
         </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
-        </div>
-    </div>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
+    }
 </div>
 
 @section Scripts {
